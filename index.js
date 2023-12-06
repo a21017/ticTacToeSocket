@@ -15,12 +15,20 @@ io.on("connection", (socket) => {
     io.emit("getOnlinePlayers",onlinePlayers);
   })
 
-  socket.on('disconnect',()=>{
+  socket.on('disconnect',({oppositePlayer})=>{
     console.log("Disconnected : "+socket.id);
     onlinePlayers = onlinePlayers.filter((player)=>player.socket_id!==socket.id);
-
+    
     io.emit("getOnlinePlayers",onlinePlayers);
 
+  })
+
+  socket.on('onGameQuit',({oppositePlayer})=>{
+
+    if(oppositePlayer){
+      console.log("Opposite player events for game quit")
+      io.to(oppositePlayer.socketId).emit('gameQuit');
+    }
   })
 
   socket.on('onplayerrequested',(socketId)=>{
