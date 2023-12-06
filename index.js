@@ -11,7 +11,7 @@ io.on("connection", (socket) => {
 
   socket.on('onconnection',(name)=>{
     onlinePlayers.push({name:name,socket_id:socket.id});
-
+//...
     io.emit("getOnlinePlayers",onlinePlayers);
   })
 
