@@ -26,8 +26,11 @@ io.on("connection", (socket) => {
   socket.on('onGameQuit',({oppositePlayer})=>{
 
     if(oppositePlayer){
-      console.log("Opposite player events for game quit")
-      io.to(oppositePlayer.socketId).emit('gameQuit');
+      console.log("Opposite player events for game quit",socket.id);
+      io.to(oppositePlayer.socketId).to(socket.id).emit('gameQuit',{oppositePlayer:oppositePlayer,quitPlayer:socket.id});
+    }
+    else{
+      io.to(socket.id).emit('gameQuit',{});
     }
   })
 
